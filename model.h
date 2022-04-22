@@ -5,6 +5,9 @@
 
 class Models : public QObject {
 
+
+ private:
+    int scores_num_{};
 };
 
 #endif //DUALINGVO__MODELS_H__
