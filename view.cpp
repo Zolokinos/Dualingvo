@@ -31,12 +31,15 @@ View::View() :
 }
 
 void View::CreateMenu() {
-  difficulty_ = menuBar()->addMenu("Difficulty: ");
-  sound_ = menuBar()->addMenu("Turned on");
+  difficulty_ = menuBar()->addMenu("Difficulty: Easy");
+  sound_ = menuBar()->addAction("Turned on");
+  connect(sound_, &QAction::triggered, this, [&] {
+    controller_->ChangeSound();
+  });
 
-  QAction* easy = difficulty_->addAction("Easy");
-  QAction* medium = difficulty_->addAction("Medium");
-  QAction* hard = difficulty_->addAction("Hard");
+  difficulty_actions_.push_back(difficulty_->addAction("Easy"));
+  difficulty_actions_.push_back(difficulty_->addAction("Medium"));
+  difficulty_actions_.push_back(difficulty_->addAction("Hard"));
 }
 
 void View::SetUpInterface() {
@@ -65,7 +68,7 @@ void View::SetUpInterface() {
 
   choice_mode_layout_->addWidget(back_, 0, 0, Qt::AlignTop | Qt::AlignLeft);
   for (int i = 0; i < 4; ++i) {
-    choice_mode_layout_->addWidget(modes_[i], 2 + i, 1);
+    choice_mode_layout_->addWidget(modes_[i], 1 + i, 1);
   }
 
   back_->setSizePolicy(fixed_policy);
@@ -77,10 +80,10 @@ void View::SetUpInterface() {
   choice_mode_layout_->setColumnStretch(1, 3);
   choice_mode_layout_->setColumnStretch(2, 1);
 
-  choice_mode_layout_->setRowStretch(0, 2);
-  choice_mode_layout_->setRowStretch(1, 1);
+  choice_mode_layout_->setRowStretch(0, 1);
+  choice_mode_layout_->setRowStretch(5, 1);
   for (int i = 0; i < 4; ++i) {
-    choice_mode_layout_->setColumnStretch(2 + i, 1);
+    choice_mode_layout_->setRowStretch(1 + i, 1);
   }
 
   widget_select_->setLayout(choice_mode_layout_);
@@ -90,15 +93,11 @@ void View::SetUpInterface() {
 }
 
 void View::ChangeVoice() {
-  if(sound_->title() == "Turned on") {
-    sound_->title() = "Turned off";
+  if(sound_->text() == "Turned on") {
+    sound_->text() = "Turned off";
   } else {
-    sound_->title() = "Turned on";
+    sound_->text() = "Turned on";
   }
-}
-
-void View::ChangeDifficulty() {
-  /// todo
 }
 
 void View::ToChoiceTypeGame() {
@@ -106,5 +105,26 @@ void View::ToChoiceTypeGame() {
 }
 
 void View::ToMainMenu() {
+  setCentralWidget(widget_main_menu_);
+}
 
+void View::ConnectWidgets() {
+  connect(start_, &QPushButton::clicked, widget_main_menu_, [&] {
+    controller_->ToChoiceTypeGame();
+  });
+
+  connect(exit_, &QPushButton::clicked, widget_main_menu_, [&] {
+    controller_->Exit();
+  });
+
+  connect(back_, &QPushButton::clicked, widget_main_menu_, [&] {
+    controller_->ToMainMenu();
+  });
+}
+
+void View::ConnectActions() {
+  for (int i = 0; i < 3; ++i) {
+    connect(difficulty_actions_[i], &QAction::triggered, this, [&] {
+      controller_->ToChoiceTypeGame();
+    });}
 }

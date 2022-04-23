@@ -4,7 +4,13 @@
 #include <QWidget>
 
 class Controller : public QWidget {
+ public:
   Controller();
+  void ToChoiceTypeGame();
+  void ChangeSound();
+  void Exit();
+  void ToMainMenu();
+  void ChangeDifficulty();
 };
 
 #endif //DUALINGVO__CONTROLLER_H__

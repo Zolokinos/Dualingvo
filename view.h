@@ -20,9 +20,10 @@ class View : public QMainWindow{
   void CreateMenu();
   void SetUpInterface();
   void ChangeVoice();
-  void ChangeDifficulty();
   void ToChoiceTypeGame();
   void ToMainMenu();
+  void ConnectWidgets();
+  void ConnectActions();
 
   Controller* controller_;
   Models* models_;
@@ -36,9 +37,15 @@ class View : public QMainWindow{
   QPushButton* start_;
   QPushButton* exit_;
   QPushButton* back_;
+  QAction* sound_;
   std::vector<QPushButton*> modes_;
-  QMenu* sound_;
   QMenu* difficulty_;
+  std::vector<QAction*> difficulty_actions_;
+  enum difficulty_statements_ {
+    easy,
+    medium,
+    hard,
+  };
 };
 
 #endif // DUALINGVO__VIEW_H__
