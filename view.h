@@ -8,23 +8,30 @@
 #include <QMenuBar>
 #include <QPushButton>
 
+#include "abstract_view.h"
 #include "controller.h"
 #include "model.h"
 
-class View : public QMainWindow{
+class View : public AbstractView {
   Q_OBJECT
  public:
   View();
 
+  enum difficulty_statements {
+    easy,
+    medium,
+    hard,
+  };
  private:
-  void CreateMenu();
-  void SetUpInterface();
+  void CreateMenu() override;
+  void SetUpInterface() override;
   void ChangeVoice();
+  void ChangeDifficulty(int statement);
   void ToChoiceTypeGame();
   void ToMainMenu();
   void ConnectWidgets();
-  void ConnectActions();
 
+  void ConnectActions();
   Controller* controller_;
   Models* models_;
   QGridLayout* start_layout_;
@@ -40,12 +47,8 @@ class View : public QMainWindow{
   QAction* sound_;
   std::vector<QPushButton*> modes_;
   QMenu* difficulty_;
+
   std::vector<QAction*> difficulty_actions_;
-  enum difficulty_statements_ {
-    easy,
-    medium,
-    hard,
-  };
 };
 
 #endif // DUALINGVO__VIEW_H__

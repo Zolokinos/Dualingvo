@@ -4,7 +4,7 @@
 #include "view.h"
 
 View::View() :
-    QMainWindow(nullptr),
+    controller_(new Controller(this)),
     start_layout_(new QGridLayout()),
     choice_mode_layout_(new QGridLayout()),
     total_scores_(new QHBoxLayout()),
@@ -26,16 +26,12 @@ View::View() :
   modes_.push_back(new QPushButton("Mixed", widget_select_));
 
   CreateMenu();
-
   SetUpInterface();
 }
 
 void View::CreateMenu() {
   difficulty_ = menuBar()->addMenu("Difficulty: Easy");
   sound_ = menuBar()->addAction("Turned on");
-  connect(sound_, &QAction::triggered, this, [&] {
-    controller_->ChangeSound();
-  });
 
   difficulty_actions_.push_back(difficulty_->addAction("Easy"));
   difficulty_actions_.push_back(difficulty_->addAction("Medium"));
@@ -89,6 +85,7 @@ void View::SetUpInterface() {
   widget_select_->setLayout(choice_mode_layout_);
 
   setCentralWidget(widget_main_menu_);
+
   ToChoiceTypeGame();
 }
 
@@ -97,6 +94,16 @@ void View::ChangeVoice() {
     sound_->text() = "Turned off";
   } else {
     sound_->text() = "Turned on";
+  }
+}
+
+void View::ChangeDifficulty(int statement) {
+  if (statement == easy) {
+    difficulty_->title() = "Difficulty: Easy";
+  } else if (statement == medium) {
+    difficulty_->title() = "Difficulty: Medium";
+  } else {
+    difficulty_->title() = "Difficulty: Hard";
   }
 }
 
@@ -117,14 +124,24 @@ void View::ConnectWidgets() {
     controller_->Exit();
   });
 
-  connect(back_, &QPushButton::clicked, widget_main_menu_, [&] {
+  connect(back_, &QPushButton::clicked, widget_select_, [&] {
     controller_->ToMainMenu();
   });
+
+  for (int i = 0; i < 4; ++i) {
+    connect(modes_[i], &QPushButton::clicked, widget_select_, [&]{
+      controller_->ModSelected(i);
+    });
+  }
 }
 
 void View::ConnectActions() {
-  for (int i = 0; i < 3; ++i) {
+  for (int i = easy; i < 3; ) {
     connect(difficulty_actions_[i], &QAction::triggered, this, [&] {
-      controller_->ToChoiceTypeGame();
+      controller_->ChangeDifficulty(i);
     });}
+
+  connect(sound_, &QAction::triggered, this, [&] {
+    controller_->ChangeSound();
+  });
 }
