@@ -6,48 +6,42 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
+#include <QProgressBar>
 #include <QPushButton>
 
 #include "abstract_view.h"
-#include "controller.h"
-#include "model.h"
+#include "gameplay_screen.h"
+#include "Controller/controller.h"
+#include "menu.h"
+#include "Model/model.h"
 
 class View : public AbstractView {
   Q_OBJECT
  public:
   View();
-
-  enum difficulty_statements {
-    easy,
-    medium,
-    hard,
-  };
- private:
-  void CreateMenu() override;
+  void CreateMenu();
   void SetUpInterface() override;
   void ChangeVoice();
   void ChangeDifficulty(int statement);
   void ToChoiceTypeGame();
   void ToMainMenu();
   void ConnectWidgets();
-
   void ConnectActions();
+  void ToTask(int num = 0);
+
+  enum difficulty_statements {
+    easy,
+    medium,
+    hard,
+  };
+
+ private:
+  Menu* menu_;
+  GameplayScreen* gameplay_screen_;
   Controller* controller_;
   Models* models_;
-  QGridLayout* start_layout_;
-  QGridLayout* choice_mode_layout_;
-  QHBoxLayout* total_scores_;
-  QWidget* widget_main_menu_;
-  QWidget* widget_select_;
-  QLabel* scores_;
-  QLabel* scores_name_;
-  QPushButton* start_;
-  QPushButton* exit_;
-  QPushButton* back_;
   QAction* sound_;
-  std::vector<QPushButton*> modes_;
   QMenu* difficulty_;
-
   std::vector<QAction*> difficulty_actions_;
 };
 

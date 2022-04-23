@@ -2,8 +2,8 @@
 #define DUALINGVO__CONTROLLER_H__
 
 #include <QWidget>
-#include "abstract_view.h"
-#include "model.h"
+#include "View/abstract_view.h"
+#include "Model/model.h"
 
 class Controller : public QWidget {
  public:

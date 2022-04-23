@@ -21,7 +21,22 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O0")
 
-set(SOURCES main.cpp view.cpp view.h controller.cpp controller.h model.cpp model.h abstract_view.h)
+set(Controller
+        Controller/controller.cpp
+        Controller/controller.h)
+
+set(Model
+        Model/model.cpp
+        Model/model.h)
+
+set(View
+        View/view.cpp
+        View/view.h
+        View/abstract_view.h
+        View/menu.cpp
+        View/menu.h View/gameplay_screen.cpp View/gameplay_screen.h)
+
+set(SOURCES main.cpp ${Controller} ${Model} ${View})
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

@@ -1,44 +1,23 @@
-#include <QApplication>
-#include <QScreen>
-
-#include "view.h"
-
-View::View() :
-    controller_(new Controller(this)),
+#include "menu.h"
+Menu::Menu(AbstractView* parent) :
+    parent_(parent),
     start_layout_(new QGridLayout()),
     choice_mode_layout_(new QGridLayout()),
     total_scores_(new QHBoxLayout()),
     widget_main_menu_(new QWidget(this)),
     widget_select_(new QWidget(this)),
     scores_(new QLabel("0", widget_main_menu_)),
-    scores_name_(new QLabel("Scores", widget_main_menu_)),
+    scores_name_(new QLabel("Scores: ", widget_main_menu_)),
     start_(new QPushButton("Start", widget_main_menu_)),
     exit_(new QPushButton("Exit", widget_main_menu_)),
     back_(new QPushButton("Back", widget_select_)) {
-  move(200, 100);
-  resize(1500, 750);
-  setMaximumSize(1500, 750);
-  setMinimumSize(500, 250);
-
   modes_.push_back(new QPushButton("Pick-an-Option", widget_select_));
   modes_.push_back(new QPushButton("Input-answer", widget_select_));
   modes_.push_back(new QPushButton("Audio", widget_select_));
   modes_.push_back(new QPushButton("Mixed", widget_select_));
-
-  CreateMenu();
-  SetUpInterface();
 }
 
-void View::CreateMenu() {
-  difficulty_ = menuBar()->addMenu("Difficulty: Easy");
-  sound_ = menuBar()->addAction("Turned on");
-
-  difficulty_actions_.push_back(difficulty_->addAction("Easy"));
-  difficulty_actions_.push_back(difficulty_->addAction("Medium"));
-  difficulty_actions_.push_back(difficulty_->addAction("Hard"));
-}
-
-void View::SetUpInterface() {
+void Menu::SetUpInterface() {
   total_scores_->addWidget(scores_name_);
   total_scores_->addWidget(scores_);
 
@@ -84,38 +63,18 @@ void View::SetUpInterface() {
 
   widget_select_->setLayout(choice_mode_layout_);
 
-  setCentralWidget(widget_main_menu_);
-
-  ToChoiceTypeGame();
+  parent_->setCentralWidget(widget_main_menu_);
 }
 
-void View::ChangeVoice() {
-  if(sound_->text() == "Turned on") {
-    sound_->text() = "Turned off";
-  } else {
-    sound_->text() = "Turned on";
-  }
+void Menu::ToChoiceTypeGame() {
+  parent_->setCentralWidget(widget_select_);
 }
 
-void View::ChangeDifficulty(int statement) {
-  if (statement == easy) {
-    difficulty_->title() = "Difficulty: Easy";
-  } else if (statement == medium) {
-    difficulty_->title() = "Difficulty: Medium";
-  } else {
-    difficulty_->title() = "Difficulty: Hard";
-  }
+void Menu::ToMainMenu() {
+  parent_->setCentralWidget(widget_main_menu_);
 }
 
-void View::ToChoiceTypeGame() {
-  setCentralWidget(widget_select_);
-}
-
-void View::ToMainMenu() {
-  setCentralWidget(widget_main_menu_);
-}
-
-void View::ConnectWidgets() {
+void Menu::ConnectWidgets() {
   connect(start_, &QPushButton::clicked, widget_main_menu_, [&] {
     controller_->ToChoiceTypeGame();
   });
@@ -135,13 +94,6 @@ void View::ConnectWidgets() {
   }
 }
 
-void View::ConnectActions() {
-  for (int i = easy; i < 3; ) {
-    connect(difficulty_actions_[i], &QAction::triggered, this, [&] {
-      controller_->ChangeDifficulty(i);
-    });}
-
-  connect(sound_, &QAction::triggered, this, [&] {
-    controller_->ChangeSound();
-  });
+void Menu::SetController(Controller* controller) {
+  controller_ = controller;
 }
