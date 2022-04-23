@@ -11,11 +11,11 @@
 
 class GameplayScreen : public QMainWindow {
  public:
-  GameplayScreen(AbstractView* parent);
+  explicit GameplayScreen(AbstractView* parent);
   void SetUpInterface();
   void ConnectWidgets();
   void SetController(Controller* controller);
-  void ToTask(int num);
+  void ToTask(int num = 0);
 
  private:
   AbstractView* parent_;

@@ -11,7 +11,7 @@
 
 class Menu : public QMainWindow {
  public:
-  Menu(AbstractView* parent);
+  explicit Menu(AbstractView* parent);
   void SetUpInterface();
   void ConnectWidgets();
   void ToChoiceTypeGame();

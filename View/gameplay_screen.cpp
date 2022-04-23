@@ -19,18 +19,18 @@ void GameplayScreen::SetController(Controller* controller) {
 }
 
 void GameplayScreen::SetUpInterface() {
-  basic_layout_left_->addWidget(leave_, 3);
-  basic_layout_left_->addStretch(8);
+  basic_layout_left_->addWidget(leave_, 1);
+  basic_layout_left_->addStretch(16);
 
   try_layout_->addWidget(word_try_);
   try_layout_->addWidget(tries_);
   try_layout_->addStretch();
 
-  basic_layout_right_->addStretch(6);
+  basic_layout_right_->addStretch(12);
   basic_layout_right_->addLayout(try_layout_);
   basic_layout_right_->addWidget(solve_, 3);
   
-  basic_link_layout_->addLayout(basic_layout_left_, 2);
+  basic_link_layout_->addLayout(basic_layout_left_, 1);
   basic_link_layout_->addWidget(changeable_part_widget_, 7);
   basic_link_layout_->addLayout(basic_layout_right_, 2);
   
@@ -42,8 +42,20 @@ void GameplayScreen::SetUpInterface() {
   solve_->setSizePolicy(policy);
 
   widget_task_->setLayout(divide_progressbar_);
+
+  ToTask();
 }
 
 void GameplayScreen::ToTask(int num) {
   parent_->setCentralWidget(widget_task_);
+}
+
+void GameplayScreen::ConnectWidgets() {
+  connect(leave_, &QPushButton::clicked, widget_task_, [&] {
+    controller_->BackToMenu();
+  });
+
+  connect(solve_, &QPushButton::clicked, widget_task_, [&] {
+    controller_->Check();
+  });
 }

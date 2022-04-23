@@ -25,8 +25,11 @@ class Controller : public QWidget {
   void ChangeSound();
   void Exit();
   void ToMainMenu();
+  void BackToMenu();
+  void Check();
   void ChangeDifficulty(int difficulty);
   void ModSelected(int variant);
+  void SetMenuBarVisible(bool flag);
 
  private:
   AbstractView* view_;

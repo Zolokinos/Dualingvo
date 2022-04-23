@@ -25,14 +25,11 @@ void View::CreateMenu() {
   difficulty_actions_.push_back(difficulty_->addAction("Easy"));
   difficulty_actions_.push_back(difficulty_->addAction("Medium"));
   difficulty_actions_.push_back(difficulty_->addAction("Hard"));
-  menuBar()->setVisible(false);
 }
 
 void View::SetUpInterface() {
   menu_->SetUpInterface();
   gameplay_screen_->SetUpInterface();
-
-  ToTask();
 }
 
 void View::ChangeVoice() {
@@ -66,6 +63,7 @@ void View::ConnectActions() {
 
 void View::ConnectWidgets() {
   menu_->ConnectWidgets();
+  gameplay_screen_->ConnectWidgets();
 }
 
 void View::ToChoiceTypeGame() {
@@ -78,5 +76,9 @@ void View::ToMainMenu() {
 
 void View::ToTask(int num) {
   gameplay_screen_->ToTask(num);
+}
+
+void View::SetMenuBarVisible(bool flag) {
+  menuBar()->setVisible(flag);
 }
 

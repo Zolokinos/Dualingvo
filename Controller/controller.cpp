@@ -23,3 +23,15 @@ void Controller::ChangeDifficulty(int difficulty) {
 void Controller::ModSelected(int variant) {
 
 }
+
+void Controller::BackToMenu() {
+
+}
+
+void Controller::Check() {
+
+}
+
+void Controller::SetMenuBarVisible(bool flag) {
+
+}

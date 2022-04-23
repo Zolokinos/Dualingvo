@@ -28,6 +28,7 @@ class View : public AbstractView {
   void ConnectWidgets();
   void ConnectActions();
   void ToTask(int num = 0);
+  void SetMenuBarVisible(bool flag);
 
   enum difficulty_statements {
     easy,
