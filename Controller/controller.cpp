@@ -1,8 +1,11 @@
 #include <QMessageBox>
 #include "controller.h"
-Controller::Controller(AbstractView* view) : view_(view) {}
+Controller::Controller() :
+  view_(new View()),
+  models_(new Models()) {}
 
 void Controller::ToChoiceTypeGame() {
+
 }
 
 void Controller::ChangeSound() {

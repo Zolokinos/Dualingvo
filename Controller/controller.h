@@ -2,10 +2,10 @@
 #define DUALINGVO__CONTROLLER_H__
 
 #include <QWidget>
-#include "View/abstract_view.h"
+#include "View/view.h"
 #include "Model/model.h"
 
-class Controller : public QWidget {
+class Controller {
  public:
   enum difficulty_statements {
     easy,
@@ -20,7 +20,8 @@ class Controller : public QWidget {
     Mixed,
   };
 
-  explicit Controller(AbstractView* view);
+  explicit Controller();
+
   void ToChoiceTypeGame();
   void ChangeSound();
   void Exit();
@@ -32,7 +33,8 @@ class Controller : public QWidget {
   void SetMenuBarVisible(bool flag);
 
  private:
-  AbstractView* view_;
+  View* view_;
+  Models* models_;
 };
 
 #endif //DUALINGVO__CONTROLLER_H__

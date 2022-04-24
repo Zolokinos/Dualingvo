@@ -6,20 +6,19 @@
 #include <QProgressBar>
 #include <QPushButton>
 #include <QLabel>
-#include "abstract_view.h"
-#include "Controller/controller.h"
 
 class GameplayScreen : public QMainWindow {
  public:
-  explicit GameplayScreen(AbstractView* parent);
+  explicit GameplayScreen();
   void SetUpInterface();
   void ConnectWidgets();
-  void SetController(Controller* controller);
-  void ToTask(int num = 0);
+  QWidget* GetWidgetTask();
+
+  signals:
+  void BackToMenu();
+  void Check();
 
  private:
-  AbstractView* parent_;
-  Controller* controller_{nullptr};
 
   QWidget* widget_task_;
   QVBoxLayout* divide_progressbar_;
@@ -33,7 +32,6 @@ class GameplayScreen : public QMainWindow {
   QLabel* tries_;
   QHBoxLayout* try_layout_;
   QWidget* changeable_part_widget_;
-
 };
 
 #endif //DUALINGVO_VIEW_GAMEPLAY_SCREEN_H__

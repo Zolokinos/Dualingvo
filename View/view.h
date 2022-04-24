@@ -8,27 +8,20 @@
 #include <QMenuBar>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QStackedWidget>
 
-#include "abstract_view.h"
 #include "gameplay_screen.h"
-#include "Controller/controller.h"
 #include "menu.h"
-#include "Model/model.h"
 
-class View : public AbstractView {
+class View : public QMainWindow {
   Q_OBJECT
  public:
   View();
   void CreateMenu();
-  void SetUpInterface() override;
-  void ChangeVoice();
-  void ChangeDifficulty(int statement) override;
-  void ToChoiceTypeGame();
-  void ToMainMenu();
+  void SetUpInterface();
   void ConnectWidgets();
   void ConnectActions();
-  void ToTask(int num = 0);
-  void SetMenuBarVisible(bool flag);
+  void SetWindows();
 
   enum difficulty_statements {
     easy,
@@ -36,14 +29,25 @@ class View : public AbstractView {
     hard,
   };
 
+  enum windows {
+    main_menu,
+    select_game,
+    game,
+  };
+
+  signals:
+  void ChangeVoice();
+  void ChangeDifficulty(int statement);
+  void ToChoiceTypeGame();
+  void ToMainMenu();
+
  private:
   Menu* menu_;
   GameplayScreen* gameplay_screen_;
-  Controller* controller_;
-  Models* models_;
-  QAction* sound_;
-  QMenu* difficulty_;
+  QAction* sound_{};
+  QMenu* difficulty_{};
   std::vector<QAction*> difficulty_actions_;
+  QStackedWidget* stacked_widget_;
 };
 
 #endif // DUALINGVO__VIEW_H__

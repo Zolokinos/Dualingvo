@@ -3,19 +3,19 @@
 #include "view.h"
 
 View::View() :
-    menu_(new Menu(this)),
-    gameplay_screen_(new GameplayScreen(this)),
-    controller_(new Controller(this)) {
+    menu_(new Menu()),
+    gameplay_screen_(new GameplayScreen()),
+    stacked_widget_(new QStackedWidget(this)) {
   move(200, 100);
   resize(1500, 750);
   setMaximumSize(1500, 750);
   setMinimumSize(500, 250);
-  menu_->SetController(controller_);
 
   CreateMenu();
   SetUpInterface();
   ConnectWidgets();
   ConnectActions();
+
 }
 
 void View::CreateMenu() {
@@ -43,13 +43,10 @@ void View::ChangeVoice() {
 void View::ChangeDifficulty(int statement) {
   if (statement == easy) {
     difficulty_->setTitle("Difficulty: Easy");
-    // difficulty_->title() = "Difficulty: Easy";
   } else if (statement == medium) {
     difficulty_->setTitle("Difficulty: Medium");
-    // difficulty_->title() = "Difficulty: Medium";
   } else {
     difficulty_->setTitle("Difficulty: Hard");
-    // difficulty_->title() = "Difficulty: Hard";
   }
 }
 
@@ -84,11 +81,9 @@ void View::ToMainMenu() {
   menu_->ToMainMenu();
 }
 
-void View::ToTask(int num) {
-  gameplay_screen_->ToTask(num);
-}
-
-void View::SetMenuBarVisible(bool flag) {
-  menuBar()->setVisible(flag);
+void View::SetWindows() {
+  stacked_widget_->addWidget(menu_->GetWidgetMainMenu());
+  stacked_widget_->addWidget(menu_->GetWidgetSelect());
+  stacked_widget_->addWidget(gameplay_screen_->GetWidgetTask());
 }
 

@@ -1,6 +1,5 @@
 #include "menu.h"
-Menu::Menu(AbstractView* parent) :
-    parent_(parent),
+Menu::Menu() :
     start_layout_(new QGridLayout()),
     choice_mode_layout_(new QGridLayout()),
     total_scores_(new QHBoxLayout()),
@@ -62,16 +61,6 @@ void Menu::SetUpInterface() {
   }
 
   widget_select_->setLayout(choice_mode_layout_);
-
-  parent_->setCentralWidget(widget_main_menu_);
-}
-
-void Menu::ToChoiceTypeGame() {
-  parent_->setCentralWidget(widget_select_);
-}
-
-void Menu::ToMainMenu() {
-  parent_->setCentralWidget(widget_main_menu_);
 }
 
 void Menu::ConnectWidgets() {
@@ -94,6 +83,10 @@ void Menu::ConnectWidgets() {
   }
 }
 
-void Menu::SetController(Controller* controller) {
-  controller_ = controller;
+QWidget* Menu::GetWidgetMainMenu() {
+  return widget_main_menu_;
+}
+
+QWidget* Menu::GetWidgetSelect() {
+  return widget_select_;
 }

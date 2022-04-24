@@ -1,11 +1,10 @@
 #include <QApplication>
 
-#include "View/view.h"
+#include "Controller/controller.h"
 
 int main(int argc, char* argv[]) {
   QApplication app(argc, argv);
-  View view;
-  view.show();
+  Controller controller();
 
   return QApplication::exec();
 }

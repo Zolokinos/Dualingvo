@@ -32,9 +32,10 @@ set(Model
 set(View
         View/view.cpp
         View/view.h
-        View/abstract_view.h
         View/menu.cpp
-        View/menu.h View/gameplay_screen.cpp View/gameplay_screen.h)
+        View/menu.h
+        View/gameplay_screen.cpp
+        View/gameplay_screen.h)
 
 set(SOURCES main.cpp ${Controller} ${Model} ${View})
 

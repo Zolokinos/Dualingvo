@@ -1,6 +1,5 @@
 #include "gameplay_screen.h"
-GameplayScreen::GameplayScreen(AbstractView* parent) :
-    parent_(parent),
+GameplayScreen::GameplayScreen() :
     widget_task_(new QWidget(this)),
     divide_progressbar_(new QVBoxLayout()),
     basic_layout_left_(new QVBoxLayout()),
@@ -13,10 +12,6 @@ GameplayScreen::GameplayScreen(AbstractView* parent) :
     tries_(new QLabel("5", widget_task_)),
     try_layout_(new QHBoxLayout()),
     changeable_part_widget_(new QWidget(widget_task_)) {}
-
-void GameplayScreen::SetController(Controller* controller) {
-    controller_ = controller;
-}
 
 void GameplayScreen::SetUpInterface() {
   basic_layout_left_->addWidget(leave_, 1);
@@ -42,20 +37,13 @@ void GameplayScreen::SetUpInterface() {
   solve_->setSizePolicy(policy);
 
   widget_task_->setLayout(divide_progressbar_);
-
-  // ToTask();
-}
-
-void GameplayScreen::ToTask(int num) {
-  parent_->setCentralWidget(widget_task_);
 }
 
 void GameplayScreen::ConnectWidgets() {
-  connect(leave_, &QPushButton::clicked, widget_task_, [&] {
-    controller_->BackToMenu();
-  });
+  connect(leave_, &QPushButton::clicked, this, &GameplayScreen::BackToMenu);
+  connect(solve_, &QPushButton::clicked, this,&GameplayScreen::Check);
+}
 
-  connect(solve_, &QPushButton::clicked, widget_task_, [&] {
-    controller_->Check();
-  });
+QWidget* GameplayScreen::GetWidgetTask() {
+  return widget_task_;
 }
