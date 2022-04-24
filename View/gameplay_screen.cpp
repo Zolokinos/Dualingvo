@@ -43,7 +43,7 @@ void GameplayScreen::SetUpInterface() {
 
   widget_task_->setLayout(divide_progressbar_);
 
-  ToTask();
+  // ToTask();
 }
 
 void GameplayScreen::ToTask(int num) {

@@ -20,7 +20,7 @@ class Controller : public QWidget {
     Mixed,
   };
 
-  Controller(AbstractView* view);
+  explicit Controller(AbstractView* view);
   void ToChoiceTypeGame();
   void ChangeSound();
   void Exit();

@@ -22,7 +22,7 @@ class View : public AbstractView {
   void CreateMenu();
   void SetUpInterface() override;
   void ChangeVoice();
-  void ChangeDifficulty(int statement);
+  void ChangeDifficulty(int statement) override;
   void ToChoiceTypeGame();
   void ToMainMenu();
   void ConnectWidgets();

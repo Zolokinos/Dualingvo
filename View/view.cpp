@@ -42,19 +42,29 @@ void View::ChangeVoice() {
 
 void View::ChangeDifficulty(int statement) {
   if (statement == easy) {
-    difficulty_->title() = "Difficulty: Easy";
+    difficulty_->setTitle("Difficulty: Easy");
+    // difficulty_->title() = "Difficulty: Easy";
   } else if (statement == medium) {
-    difficulty_->title() = "Difficulty: Medium";
+    difficulty_->setTitle("Difficulty: Medium");
+    // difficulty_->title() = "Difficulty: Medium";
   } else {
-    difficulty_->title() = "Difficulty: Hard";
+    difficulty_->setTitle("Difficulty: Hard");
+    // difficulty_->title() = "Difficulty: Hard";
   }
 }
 
 void View::ConnectActions() {
-  for (int i = easy; i < 3; ++i) {
-    connect(difficulty_actions_[i], &QAction::triggered, this, [&] {
-      controller_->ChangeDifficulty(i);
-    });}
+  connect(difficulty_actions_[easy], &QAction::triggered, this, [&] {
+    controller_->ChangeDifficulty(easy);
+  });
+
+  connect(difficulty_actions_[medium], &QAction::triggered, this, [&] {
+    controller_->ChangeDifficulty(medium);
+  });
+
+  connect(difficulty_actions_[hard], &QAction::triggered, this, [&] {
+    controller_->ChangeDifficulty(hard);
+  });
 
   connect(sound_, &QAction::triggered, this, [&] {
     controller_->ChangeSound();
