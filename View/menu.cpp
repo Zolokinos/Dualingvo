@@ -63,24 +63,29 @@ void Menu::SetUpInterface() {
   widget_select_->setLayout(choice_mode_layout_);
 }
 
-void Menu::ConnectWidgets() {
-  connect(start_, &QPushButton::clicked, widget_main_menu_, [&] {
-    controller_->ToChoiceTypeGame();
+void Menu::ConnectDependencies() {
+  connect(start_, &QPushButton::clicked, this, [&] {
+    emit ToChoiceTypeGame();
+  });
+  connect(exit_, &QPushButton::clicked, this, [&] {
+    emit Exit();
+  });
+  connect(back_, &QPushButton::clicked, this, [&] {
+    emit ToMainMenu();
   });
 
-  connect(exit_, &QPushButton::clicked, widget_main_menu_, [&] {
-    controller_->Exit();
+  connect(modes_[Pick_an_Option], &QPushButton::clicked, this, [&] {
+    emit ModSelected(Pick_an_Option);
   });
-
-  connect(back_, &QPushButton::clicked, widget_select_, [&] {
-    controller_->ToMainMenu();
+  connect(modes_[Input_answer], &QPushButton::clicked, this, [&] {
+    emit ModSelected(Input_answer);
   });
-
-  for (int i = 0; i < 4; ++i) {
-    connect(modes_[i], &QPushButton::clicked, widget_select_, [&]{
-      controller_->ModSelected(i);
-    });
-  }
+  connect(modes_[Audio], &QPushButton::clicked, this, [&] {
+    emit ModSelected(Audio);
+  });
+  connect(modes_[Mixed], &QPushButton::clicked, this, [&] {
+    emit ModSelected(Mixed);
+  });
 }
 
 QWidget* Menu::GetWidgetMainMenu() {

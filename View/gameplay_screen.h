@@ -8,10 +8,11 @@
 #include <QLabel>
 
 class GameplayScreen : public QMainWindow {
+ Q_OBJECT
  public:
   explicit GameplayScreen();
   void SetUpInterface();
-  void ConnectWidgets();
+  void ConnectDependencies();
   QWidget* GetWidgetTask();
 
   signals:

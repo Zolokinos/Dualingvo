@@ -6,17 +6,23 @@
 #include <QMainWindow>
 #include <QPushButton>
 
+#include "Helpers/enums.h"
+
 class Menu : public QMainWindow {
+ Q_OBJECT
  public:
+
   Menu();
   void SetUpInterface();
-  void ConnectWidgets();
+  void ConnectDependencies();
   QWidget* GetWidgetMainMenu();
   QWidget* GetWidgetSelect();
 
   signals:
   void ToChoiceTypeGame();
+  void Exit();
   void ToMainMenu();
+  void ModSelected(int mod);
 
  private:
   QGridLayout* start_layout_;

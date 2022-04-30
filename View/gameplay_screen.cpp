@@ -39,9 +39,13 @@ void GameplayScreen::SetUpInterface() {
   widget_task_->setLayout(divide_progressbar_);
 }
 
-void GameplayScreen::ConnectWidgets() {
-  connect(leave_, &QPushButton::clicked, this, &GameplayScreen::BackToMenu);
-  connect(solve_, &QPushButton::clicked, this,&GameplayScreen::Check);
+void GameplayScreen::ConnectDependencies() {
+  connect(leave_, &QPushButton::clicked, this, [&] {
+    emit BackToMenu();
+  });
+  connect(solve_, &QPushButton::clicked, this,[&] {
+    emit Check();
+  });
 }
 
 QWidget* GameplayScreen::GetWidgetTask() {

@@ -11,6 +11,7 @@
 #include <QStackedWidget>
 
 #include "gameplay_screen.h"
+#include "Helpers/enums.h"
 #include "menu.h"
 
 class View : public QMainWindow {
@@ -19,27 +20,29 @@ class View : public QMainWindow {
   View();
   void CreateMenu();
   void SetUpInterface();
-  void ConnectWidgets();
+  void ConnectChildWidgets();
+  void ConnectDependencies();
   void ConnectActions();
   void SetWindows();
-
-  enum difficulty_statements {
-    easy,
-    medium,
-    hard,
-  };
-
-  enum windows {
-    main_menu,
-    select_game,
-    game,
-  };
-
-  signals:
   void ChangeVoice();
+  QStackedWidget* GetStackedWidget();
+  void ToMainMenuF();
+  void ToChoiceTypeGameF();
+
   void ChangeDifficulty(int statement);
-  void ToChoiceTypeGame();
+
+ signals:
   void ToMainMenu();
+  void NewDifficulty(int diff);
+  void ChangeSound();
+
+  void ToChoiceTypeGame();
+  void Exit();
+  void ModSelected(int mod);
+  void BackToMenu();
+  void Check();
+
+ public slots:
 
  private:
   Menu* menu_;

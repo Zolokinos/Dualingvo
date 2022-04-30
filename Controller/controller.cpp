@@ -2,7 +2,9 @@
 #include "controller.h"
 Controller::Controller() :
   view_(new View()),
-  models_(new Models()) {}
+  models_(new Models()) {
+  stacked_widget_ = view_->GetStackedWidget();
+}
 
 void Controller::ToChoiceTypeGame() {
 
@@ -41,4 +43,13 @@ void Controller::Check() {
 
 void Controller::SetMenuBarVisible(bool flag) {
 
+}
+
+void Controller::ConnectDependencies() {
+  connect(view_, &View::ToMainMenu, view_, &View::ToMainMenuF);
+  connect(view_, &View::ChangeSound, this, [&]{
+
+  });
+  connect(view_, &View::NewDifficulty, this, &Controller::ChangeDifficulty);
+  connect(view_, &View::ToChoiceTypeGame, view_, &View::ToChoiceTypeGameF);
 }

@@ -37,7 +37,10 @@ set(View
         View/gameplay_screen.cpp
         View/gameplay_screen.h)
 
-set(SOURCES main.cpp ${Controller} ${Model} ${View})
+set(Helpers
+        Helpers/enums.h)
+
+set(SOURCES main.cpp ${Controller} ${Model} ${View} ${Helpers})
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

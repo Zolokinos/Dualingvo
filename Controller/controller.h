@@ -2,24 +2,13 @@
 #define DUALINGVO__CONTROLLER_H__
 
 #include <QWidget>
+#include "Helpers/enums.h"
 #include "View/view.h"
 #include "Model/model.h"
 
-class Controller {
+class Controller : public QWidget {
+ Q_OBJECT
  public:
-  enum difficulty_statements {
-    easy,
-    medium,
-    hard,
-  };
-
-  enum modes_variants {
-    Pick_an_Option,
-    Input_answer,
-    Audio,
-    Mixed,
-  };
-
   explicit Controller();
 
   void ToChoiceTypeGame();
@@ -32,7 +21,10 @@ class Controller {
   void ModSelected(int variant);
   void SetMenuBarVisible(bool flag);
 
+  void ConnectDependencies();
+
  private:
+  QStackedWidget* stacked_widget_;
   View* view_;
   Models* models_;
 };

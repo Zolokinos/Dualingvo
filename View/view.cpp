@@ -13,9 +13,9 @@ View::View() :
 
   CreateMenu();
   SetUpInterface();
-  ConnectWidgets();
+  ConnectChildWidgets();
   ConnectActions();
-
+  SetWindows();
 }
 
 void View::CreateMenu() {
@@ -30,13 +30,14 @@ void View::CreateMenu() {
 void View::SetUpInterface() {
   menu_->SetUpInterface();
   gameplay_screen_->SetUpInterface();
+  show();
 }
 
 void View::ChangeVoice() {
   if(sound_->text() == "Turned on") {
-    sound_->text() = "Turned off";
+    sound_->setText("Turned off");
   } else {
-    sound_->text() = "Turned on";
+    sound_->setText("Turned on");
   }
 }
 
@@ -52,38 +53,67 @@ void View::ChangeDifficulty(int statement) {
 
 void View::ConnectActions() {
   connect(difficulty_actions_[easy], &QAction::triggered, this, [&] {
-    controller_->ChangeDifficulty(easy);
+    emit NewDifficulty(easy);
   });
-
   connect(difficulty_actions_[medium], &QAction::triggered, this, [&] {
-    controller_->ChangeDifficulty(medium);
+    emit NewDifficulty(medium);
   });
-
   connect(difficulty_actions_[hard], &QAction::triggered, this, [&] {
-    controller_->ChangeDifficulty(hard);
+    emit NewDifficulty(hard);
   });
 
-  connect(sound_, &QAction::triggered, this, [&] {
-    controller_->ChangeSound();
+  connect(sound_, &QAction::triggered, this, [&]{
+    emit ChangeSound();
+    ChangeVoice();
   });
 }
 
-void View::ConnectWidgets() {
-  menu_->ConnectWidgets();
-  gameplay_screen_->ConnectWidgets();
-}
-
-void View::ToChoiceTypeGame() {
-  menu_->ToChoiceTypeGame();
-}
-
-void View::ToMainMenu() {
-  menu_->ToMainMenu();
+void View::ConnectChildWidgets() {
+  menu_->ConnectDependencies();
+  gameplay_screen_->ConnectDependencies();
+  ConnectDependencies();
 }
 
 void View::SetWindows() {
   stacked_widget_->addWidget(menu_->GetWidgetMainMenu());
   stacked_widget_->addWidget(menu_->GetWidgetSelect());
   stacked_widget_->addWidget(gameplay_screen_->GetWidgetTask());
+
+  stacked_widget_->setCurrentIndex(main_menu);
+  setCentralWidget(stacked_widget_);
+}
+
+void View::ConnectDependencies() {
+  connect(menu_, &Menu::ToMainMenu, this, [&] {
+    emit ToMainMenu();
+  });
+
+  connect(menu_, &Menu::ToChoiceTypeGame, this, [&] {
+    emit ToChoiceTypeGame();
+  });
+
+  // connect(gameplay_screen_, &GameplayScreen::ToMainMenu, this, [&] {
+  //   stacked_widget_->setCurrentIndex(main_menu);
+  //   setCentralWidget(stacked_widget_);
+  // });
+}
+
+QStackedWidget* View::GetStackedWidget() {
+  return stacked_widget_;
+}
+
+// void Exit();
+// void ModSelected(int mod);
+// void BackToMenu();
+// void Check();
+
+void View::ToMainMenuF() {
+  stacked_widget_->setCurrentIndex(main_menu);
+  setCentralWidget(stacked_widget_);
+}
+
+void View::ToChoiceTypeGameF() {
+  stacked_widget_->setCurrentIndex(main_menu);
+  setCentralWidget(stacked_widget_);
 }
 
